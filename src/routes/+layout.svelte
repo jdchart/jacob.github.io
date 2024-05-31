@@ -1,5 +1,5 @@
 <script>
-	// import './reset.css';
+	import './reset.css';
 	import './theme.css';
 	import {fade} from 'svelte/transition';
 	import { base } from '$app/paths';
