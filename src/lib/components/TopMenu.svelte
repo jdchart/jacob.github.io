@@ -1,5 +1,4 @@
 <script>
-    import LogoImage from '$lib/components/LogoImage.svelte';
     import { base } from '$app/paths';
     import TopMenuButton from '$lib/components/TopMenuButton.svelte';
 </script>
@@ -11,23 +10,10 @@
     />
 
     <TopMenuButton 
-        label = "About"
-        link = "{base}/about"
+        label = "Explorer"
+        link = "{base}/explorer"
     />
-    <TopMenuButton 
-        label = "Sandbox"
-        link = "https://scene.tetras-libre.fr/"
-    />
-    
-    <TopMenuButton 
-        label = "Discuss"
-        link = "{base}/discuss"
-    />
-    
-    <TopMenuButton 
-        label = "Links"
-        link = "{base}/links"
-    />
+
 </nav>
 
 <style>
