@@ -14,6 +14,11 @@
         link = "{base}/explorer"
     />
 
+    <TopMenuButton 
+        label = "Maker"
+        link = "https://colab.research.google.com/drive/1IBGfX52AYIIccxhS5dXXQblXNKXKiVWF?usp=sharing"
+    />
+
 </nav>
 
 <style>
@@ -57,7 +62,7 @@
         flex-wrap: wrap;
 
         justify-content: center; /* Horizontally centers the child */
-  align-items: center;  
+        align-items: center;  
 
         /* border-bottom: solid 1px black; */
 

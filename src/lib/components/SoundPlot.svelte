@@ -3,20 +3,19 @@
   import * as d3 from 'd3';
   import { writable } from 'svelte/store';
 
-  // Store to hold the data
+  let json_getter;
+  let json_filename = "Load a json file";
+  let audio_getter;
+  let audio_filename = "Load an audio file";
+
   const dataStore = writable([]);
   
-  // Store for the last clicked node
   let lastClickedNode = null;
 
-  // Store for the audio context and buffer
   let audioContext = null;
   let audioBuffer = null;
   let audioSource = null;
 
-
-
-  // Function to handle file upload
   function handleFileUploadAudio(event) {
     const file = event.target.files[0];
     if (file) {
@@ -25,6 +24,7 @@
         try {
           const audioData = e.target.result;
           await loadAudio(audioData);
+          audio_filename = file.name;
         } catch (error) {
           console.error('Error loading audio:', error);
         }
@@ -42,9 +42,6 @@
     }
   }
 
-
-
-  // Function to handle file upload
   function handleFileUpload(event) {
     const file = event.target.files[0];
     if (file) {
@@ -53,6 +50,7 @@
         try {
           const jsonData = JSON.parse(e.target.result);
           dataStore.set(jsonData["slices"]);
+          json_filename = file.name;
         } catch (error) {
           console.error('Error parsing JSON:', error);
         }
@@ -62,16 +60,15 @@
   }
 
   onMount(() => {
-    // Subscribe to data store and update the scatter plot when data changes
     dataStore.subscribe(data => {
       if (data.length > 0) {
         const svg = d3.select('#scatter-plot')
           .attr('width', 500)
           .attr('height', 500);
 
-        svg.selectAll('*').remove();  // Clear previous elements
+        svg.selectAll('*').remove();
 
-        const container = svg.append('g'); // Create a container for zooming
+        const container = svg.append('g');
 
         const xScale = d3.scaleLinear()
           .domain([0, d3.max(data, d => d.x)])
@@ -92,32 +89,39 @@
           .on('click', function(event, d) {
             console.log(d.start, d.end);
             playSegment(d.start, d.end);
-            // Reset color of the previous clicked node
             if (lastClickedNode) {
               lastClickedNode.attr('fill', 'black');
             }
-            // Change color of the clicked node
             d3.select(this).attr('fill', 'red');
             lastClickedNode = d3.select(this);
           });
 
-        // Enable zoom behavior on the container
         svg.call(d3.zoom().on('zoom', zoomed));
 
         function zoomed(event) {
           const { transform } = event;
-          container.attr('transform', transform); // Apply zoom to the container
+          container.attr('transform', transform);
         }
       }
     });
   });
 
   function playSegment(startTime, endTime) {
+    stopPlayback();
     if (audioContext && audioBuffer) {
       audioSource = audioContext.createBufferSource();
       audioSource.buffer = audioBuffer;
       audioSource.connect(audioContext.destination);
       audioSource.start(0, startTime, endTime - startTime);
+    }
+  }
+
+  function playPlaybackFull(){
+    if (audioContext && audioBuffer) {
+      audioSource = audioContext.createBufferSource();
+      audioSource.buffer = audioBuffer;
+      audioSource.connect(audioContext.destination);
+      audioSource.start();
     }
   }
 
@@ -127,28 +131,44 @@
       audioSource.disconnect();
     }
   }
+
+  function handle_json_click(){
+    json_getter.click();
+  }
+
+  function handle_audio_click(){
+    audio_getter.click();
+  }
 </script>
 
 <div class="container">
     <svg id="scatter-plot"></svg>
     <div class="buttons">
         <div class="input">
-            <p>json</p>
-            <input type="file" accept=".json" on:change={handleFileUpload} />
+            <button on:click={() => handle_json_click()}>json</button>
+            <input bind:this={json_getter} type="file" accept=".json" on:change={handleFileUpload} />
+            <p>{json_filename}</p>
         </div>
         <div class="input">
-            <p>audio</p>
-            <input type="file" accept=".mp3, .wav" on:change={handleFileUploadAudio} />
+          <button on:click={() => handle_audio_click()}>audio</button>
+            <input bind:this={audio_getter} type="file" accept=".mp3, .wav" on:change={handleFileUploadAudio} />
+            <p>{audio_filename}</p>
         </div>
-    </div>
+        <button on:click={playPlaybackFull}>Play</button>
     <button on:click={stopPlayback}>Stop</button>
+    </div>
+    
 </div>
 
-
-
-
-
 <style>
+  p, button{
+    font-size: 0.75em;
+    font-family: 'Input-Mono-Narrow-Thin', monospace;
+  }
+  p{
+    color: white;
+  }
+
   svg {
     border: 1px solid black;
     width: 500px;
@@ -156,17 +176,18 @@
   }
 
   .buttons{
-    display: flex;
-    flex-wrap: wrap;
-    padding: 1em;
     width: 500px;
     background-color: grey;
-    gap: 1em;
+  }
+
+  input{
+    display: none;
   }
 
   .input{
     display: grid;
     grid-template-columns: 1fr 3fr;
     align-items: center;
+    gap: 1em;
   }
 </style>
