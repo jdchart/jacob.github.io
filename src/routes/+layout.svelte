@@ -5,10 +5,13 @@
 	import { base } from '$app/paths';
 	export let data;
 
-	console.log(data.url)
+	// console.log(data.url)
 
 	import Footer from '$lib/components/Footer.svelte';
 	import TopMenu from '$lib/components/TopMenu.svelte';
+
+	let top_menu_exclude = ["/", "/sveltekit-github-pages/", base + "/", base, "/feature-scaler", "/sveltekit-github-pages/feature-scaler", base + "/feature-scaler"]
+	let bottom_menu_exclude = ["/feature-scaler", "/sveltekit-github-pages/feature-scaler", base + "/feature-scaler"]
 </script>
 
 <div class="container">
@@ -17,12 +20,14 @@
 			in:fade={{x: 0, duration:100, delay:100}}
 			out:fade={{x: 0, duration:100}}
 		>
-		{#if data.url != base + "/" && data.url != "/sveltekit-github-pages/" && data.url != "/" && data.url != base}
+		{#if top_menu_exclude.includes(data.url) == false}
 			<TopMenu />
 		{/if}
 			<slot />
 
+		{#if bottom_menu_exclude.includes(data.url) == false}
 			<Footer />
+		{/if}
 		</div>
 
 		
