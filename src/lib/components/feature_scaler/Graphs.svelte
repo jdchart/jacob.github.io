@@ -114,9 +114,13 @@
     bind:container_element={segmentor_container}
 />
 
-<div class="cont">
-    <div bind:this={spacer} class="spacer"></div>
 
+
+
+<div class="cont">
+
+    <div bind:this={spacer} class="spacer"></div>
+    
     {#each current_data as curve_data, i}
         <FeatureGraph
             bind:this={feature_graphs[i]}
@@ -130,19 +134,17 @@
             bind:folded = {current_folded[i]}
         />
     {/each}
-    <!-- <div class="add_space"></div> -->
 </div>
 
 <style>
-    /* .add_space{
-        height: 50vh
-    } */
     .cont{
         padding: 0.5em;
         width: 100%;
         
         max-height: 100%;
         overflow-y: scroll;
+
+        scrollbar-width: none;
 
 
         /* height: calc(100% - 1em); 

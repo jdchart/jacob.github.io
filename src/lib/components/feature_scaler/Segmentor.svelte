@@ -9,7 +9,7 @@
 
 <div class="main_cont">
     <div class="container" bind:this={container_element}>
-        <h1>HELLO WOLRD</h1>
+        <h1>HELLO WORLD</h1>
     
     </div>
 </div>
