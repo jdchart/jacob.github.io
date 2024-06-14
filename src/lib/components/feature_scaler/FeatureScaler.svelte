@@ -93,6 +93,7 @@
         border: 1px solid grey;
         flex: 1;
         overflow-y: scroll;
+        position: relative;
     }
 
     .lower_section{

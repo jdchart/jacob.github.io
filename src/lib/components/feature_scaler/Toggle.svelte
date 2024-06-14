@@ -1,10 +1,11 @@
 <script>
     export let value;
     export let label;
+
 </script>
 
 <div class="cont">
-    <input type="range" min="0" max="1000" bind:value={value} class="slider">
+    <input type="checkbox" bind:checked={value} class="slider">
     <p>{label}</p>
 </div>
 
@@ -15,14 +16,16 @@
         flex-wrap: wrap;
         align-items: center;
         gap: 0.5em;
+        padding-top: 0.3em;
     }
 
     input{
-        width: 50%;
+        height: 100%;
     }
 
     p{
         width: 30%;
         font-size: 0.5em;
+        height: 100%;
     }
 </style>
