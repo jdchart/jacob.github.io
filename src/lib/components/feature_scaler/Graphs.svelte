@@ -2,14 +2,15 @@
     import FeatureGraph from '$lib/components/feature_scaler/FeatureGraph.svelte';
     import Segmentor from '$lib/components/feature_scaler/Segmentor.svelte';
     import Papa from 'papaparse';
-    import { createEventDispatcher } from 'svelte';
+    import { createEventDispatcher, onMount } from 'svelte';
 	const dispatch = createEventDispatcher();
     import * as utils from '$lib/scripts/utils.js';
 
     let src;
     let media_type;
 
-    let segmentor_instance;
+    let segmentor_container;
+    let spacer;
 
     let csvData = "";
     let parsedData = [];
@@ -18,6 +19,15 @@
     let current_data_labels = [];
     let current_weights = [];
     let current_folded = [];
+
+    onMount(() => {
+        resize_spacer();
+        window.addEventListener('resize', resize_spacer);
+    });
+
+    function resize_spacer(){
+        spacer.style.height = String(segmentor_container.offsetHeight)+ 'px'
+    }
 
     
 
@@ -101,10 +111,12 @@
 </script>
 
 <Segmentor
-    bind:this={segmentor_instance}
+    bind:container_element={segmentor_container}
 />
 
 <div class="cont">
+    <div bind:this={spacer} class="spacer"></div>
+
     {#each current_data as curve_data, i}
         <FeatureGraph
             bind:this={feature_graphs[i]}
@@ -118,12 +130,27 @@
             bind:folded = {current_folded[i]}
         />
     {/each}
+    <!-- <div class="add_space"></div> -->
 </div>
 
 <style>
+    /* .add_space{
+        height: 50vh
+    } */
     .cont{
-        width: 100%;
-        height: fit-content;
         padding: 0.5em;
+        width: 100%;
+        
+        max-height: 100%;
+        overflow-y: scroll;
+
+
+        /* height: calc(100% - 1em); 
+        overflow-y: auto;
+        box-sizing: border-box;  */
+    }
+
+    .spacer{
+        width: 100%;
     }
 </style>

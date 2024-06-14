@@ -79,6 +79,7 @@
         margin: auto;
         display: flex;
         flex-direction: column;
+        /* overflow: hidden; */
     }
 
     .media_player_cont{
@@ -92,7 +93,7 @@
         margin-top: 0.5em;
         border: 1px solid grey;
         flex: 1;
-        overflow-y: scroll;
+        overflow: hidden;
         position: relative;
     }
 
