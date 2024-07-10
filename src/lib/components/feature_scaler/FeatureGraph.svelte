@@ -225,7 +225,6 @@
         background-color: rgb(219, 219, 219);
         width: 100%;
         height: fit-content;
-        margin-right: 0.3em;
         padding: 0.5em;
         overflow: hidden;
         display: flex;

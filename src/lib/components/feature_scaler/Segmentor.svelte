@@ -1,4 +1,6 @@
 <script>
+    // https://chatgpt.com/c/60c35d77-4c3d-4442-9af2-ae9e7b77be12
+    
     import { onMount } from 'svelte';
 
     export let container_element;
