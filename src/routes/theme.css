@@ -27,3 +27,7 @@ div, h1, h2, h3{
 	width: 100%;
 	height: 100%;
 }
+
+.markdown_content > p{
+	font-size: 0.8em;
+}
