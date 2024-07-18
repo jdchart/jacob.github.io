@@ -2,6 +2,8 @@
     import { onMount } from 'svelte';
     import WaveSurfer from 'wavesurfer.js';
     import ControlButton from '$lib/components/feature_scaler/ControlButton.svelte';
+    // import RegionsPlugin from '$lib/scripts/regions_plug.js';
+    import RegionsPlugin from 'wavesurfer.js/dist/plugins/regions.esm.js';
     import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
     
@@ -11,6 +13,11 @@
     let media_type = null;
     let video_player;
     let ws_div;
+    let wsRegions;
+
+    let region_play = false;
+    let selected_region = null;
+    let selected_region_befroe_cick = null;
 
     let pos_report_interval = 50;
 
@@ -22,6 +29,10 @@
         dispatch('time_change', {
 			time: get_current_time() / wave_surfer_instance.getDuration()
 		});
+    }
+    
+    export const get_duration = () =>{
+        return wave_surfer_instance.getDuration();
     }
 
     export const update_pos = (pos) => {
@@ -43,7 +54,13 @@
             mediaControls : false
         });
 
+        wsRegions = wave_surfer_instance.registerPlugin(RegionsPlugin.create());
+
         wave_surfer_instance.on('ready', () => {
+            dispatch('changed_media_info', {
+                duration: wave_surfer_instance.getDuration()
+            });
+
             const waveform = document.getElementById('waveform');
             waveform.addEventListener('click', () => {
                 if (!playing) {
@@ -85,6 +102,8 @@
         media_type = source_file.type.split("/")[0]
 
         await load_audio_wavesurfer(audio_data, source_file.type);
+
+        
 
         if (media_type === "video"){
             // wave_surfer_instance.height = 50;
@@ -150,6 +169,47 @@
         intervalId = null;
         }
     }
+
+    const random = (min, max) => Math.random() * (max - min) + min
+    const randomColor = () => `rgba(${random(0, 255)}, ${random(0, 255)}, ${random(0, 255)}, 0.5)`
+    export const update_slices = (slice_data) => {
+        // https://wavesurfer.xyz/plugins/regions
+        // https://wavesurfer.xyz/examples/?regions.js
+
+        wsRegions.clearRegions();
+
+        slice_data.forEach(slice => {
+            wsRegions.addRegion({
+                start: slice[0],
+                end: slice[1],
+                // content: 'Resize me',
+                // color: "rgba(80, 170, 89, 0.21)",
+                color: randomColor(),
+                drag: false,
+                resize: false,
+            });
+        });
+        
+        wsRegions.on('region-clicked', (region, e) => {
+            e.stopPropagation();
+
+            selected_region = region;
+
+            region_play = true;
+
+            let seek = region.start / wave_surfer_instance.getDuration()
+            wave_surfer_instance.seekTo(seek + 0.000001);
+
+            start_playback();
+        });
+
+        wsRegions.on('region-out', (region) => {
+            if(region_play && selected_region === region){
+                pause_playback();
+                region_play = false;
+            };
+        });
+    };
 </script>
 
 <div class="container">
@@ -158,8 +218,6 @@
         <video bind:this={video_player} muted></video>
     </div>
 
-    
-        
     {/if}
     {#if src == null}
             <p class="please_load">Load an audio or video file...</p>
@@ -172,15 +230,15 @@
     <div class="playback_controls">
         <ControlButton
             label = "⏵"
-            func = {start_playback}
+            func = {() => {region_play = false; start_playback()}}
         />
         <ControlButton
             label = "⏸"
-            func = {pause_playback}
+            func = {() => {region_play = false; pause_playback()}}
         />
         <ControlButton
             label = "⏹"
-            func = {stop_playback}
+            func = {() => {region_play = false; stop_playback()}}
         />
     </div>
 </div>

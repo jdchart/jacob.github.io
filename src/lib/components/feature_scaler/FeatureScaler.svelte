@@ -6,16 +6,25 @@
     let media_player_load_trigger;
     let graph_data_load_trigger;
 
+    let media_player_instance;
+
     let update_media_pos_trigger;
     let update_graph_playheads_trigger;
     let playhead_position = 0;
+
+    let media_duration = 0;
 
     let media_filename = "Load a media file";
     let analysis_filename = "Load an analysis file";
 
     let load_media_cbk = async (file_object, data) => {
         await media_player_load_trigger(file_object, data);
+        
     };
+
+    function handle_changed_media_info(e){
+        media_duration = e.detail.duration;
+    }
 
     let load_analysis_cbk = async (file_object, data) => {
         await graph_data_load_trigger(file_object, data);
@@ -31,6 +40,10 @@
     function handle_clicked_graph(e){
         update_media_pos_trigger(e.detail.clicked_pos);
     };
+
+    function handle_update_slices(e){
+        media_player_instance.update_slices(e.detail.slice_list);
+    }
 
 </script>
 
@@ -57,6 +70,8 @@
                 bind:load_src={media_player_load_trigger}
                 on:time_change={(content) => {handle_media_player_time_change(content)}}
                 bind:update_pos = {update_media_pos_trigger}
+                on:changed_media_info={handle_changed_media_info}
+                bind:this={media_player_instance}
             />
         </div>
     
@@ -66,6 +81,8 @@
                 bind:update_playheads={update_graph_playheads_trigger}
                 playhead_position = {playhead_position}
                 on:clicked_graph={(e) => {handle_clicked_graph(e)}}
+                media_duration={media_duration}
+                on:update_slices={handle_update_slices}
             />
         </div>
     </div>

@@ -20,6 +20,8 @@
     let current_weights = [];
     let current_folded = [];
 
+    export let media_duration = 0;
+
     onMount(() => {
         resize_spacer();
         window.addEventListener('resize', resize_spacer);
@@ -28,8 +30,6 @@
     function resize_spacer(){
         spacer.style.height = String(segmentor_container.offsetHeight)+ 'px'
     }
-
-    
 
     export const load_src = async (source_file, data_in) => {
         src = source_file.name;
@@ -108,14 +108,22 @@
         //     instance.resize_graphs();
         // });
     };
+
+    function handle_update_slices(e){
+        dispatch('update_slices', {
+			slice_list: e.detail.slice_list
+		});
+    }
 </script>
 
 <Segmentor
     bind:container_element={segmentor_container}
+    feature_data={current_data}
+    weight_data={current_weights}
+    label_data={current_data_labels}
+    media_duration={media_duration}
+    on:update_slices={handle_update_slices}
 />
-
-
-
 
 <div class="cont">
 
