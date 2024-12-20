@@ -20,7 +20,10 @@
     
     // Initialize data:
     import raw_data from '$lib/data/ml_map/v1.json';
-    let data = net_anal.parse_raw_data(raw_data, network_style);
+    import category_data from '$lib/data/ml_map/categories.json';
+    let data = net_anal.parse_raw_data(raw_data, network_style, category_data);
+
+    console.log(data);
 
     import workflow_data from '$lib/data/ml_map/workflows.json';
 

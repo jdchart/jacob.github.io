@@ -5,21 +5,21 @@
             "description" : "The process of taking an image that exists in the real world and turning it into a digital image file.",
             "links" : ["[Article in ScienceDirect](https://www.sciencedirect.com/science/article/abs/pii/B9780128210499000083)"],
             "implementations" : [],
-            "path" : ["247", "243", "241", "229"]
+            "path" : ["229", "227", "225", "217"]
         },
         {
             "name" : "2D Audio Corpus Explorer",
             "description" : "We can slice a piece of audio into smaller parts, then describe it using a feature. Finally we can use dimensionality reduction to project these slices into a 2 or 3 dimensional space.",
             "links" : ["[FluCoMa tutorial](https://learn.flucoma.org/learn/2d-corpus-explorer/)"],
             "implementations" : [],
-            "path" : ["225", "193", "165"]
+            "path" : ["213", "203", "177", "153"]
         },
         {
             "name" : "Video Embedding Projection",
             "description" : "We can take a video, and get an embedding vector foer each frame which can be projected into a 2 or 3 dimensional space using dimensionality reduction.",
             "links" : ["[PixPlot](https://dhlab.yale.edu/projects/pixplot/)", "[dvt article](https://academic.oup.com/dsh/article-abstract/36/2/e1/5382183?redirectedFrom=fulltext)"],
             "implementations" : [],
-            "path" : ["227", "229", "151", "149"]
+            "path" : ["215", "217", "163", "153"]
         }
     ]
 }

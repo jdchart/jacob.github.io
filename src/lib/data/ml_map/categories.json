@@ -1,3 +1,82 @@
 {
-    
+    "_Digitization" : {
+        "description" : "The process of converting a source from the physical world to the digital domain.",
+        "links" : [
+            "[Wikipedia article](https://en.wikipedia.org/wiki/Digitization)",
+            "[Digital humanities workbench article](https://www2.fgw.vu.nl/werkbanken/dighum/source_data/digitisation.php)"
+        ],
+        "implementations" : []
+    },
+    "_Media" : {
+        "description" : "A digital file that encodes content according to a set of standards and can be decoded to display the content.",
+        "links" : [],
+        "implementations" : []
+    },
+    "_Decomposition" : {
+        "description" : "Methods for splitting media across various dimensions.",
+        "links" : [],
+        "implementations" : []
+    },
+    "_Decomposition_Audio Decomposition" : {
+        "description" : "Methods for splitting audio across temporal or spectral dimensions.",
+        "links" : [],
+        "implementations" : []
+    },
+    "_Decomposition_Audio Decomposition_Spectral Decomposition" : {
+        "description" : "Methods for splitting audio in the spectral dimension.",
+        "links" : [],
+        "implementations" : []
+    },
+    "_Decomposition_Audio Decomposition_Temporal Decomposition" : {
+        "description" : "Methods for splitting audio in the temporal dimension.",
+        "links" : [],
+        "implementations" : []
+    },
+    "_Decomposition_Image Decomposition" : {
+        "description" : "Methods for splitting images in the spatial dimension.",
+        "links" : [],
+        "implementations" : []
+    },
+    "_Decomposition_Image Decomposition_Spatial Decomposition" : {
+        "description" : "Methods for splitting images in the spatial dimension.",
+        "links" : [],
+        "implementations" : []
+    },
+    "_Decomposition_Video Decomposition" : {
+        "description" : "Methods for splitting video across the spatial and temporal dimensions.",
+        "links" : [],
+        "implementations" : []
+    },
+    "_Decomposition_Video Decomposition_Temporal Decomposition" : {
+        "description" : "Methods for splitting video in the temporal dimension.",
+        "links" : [],
+        "implementations" : []
+    },
+    "_Decomposition_Video Decomposition_Spatial Decomposition" : {
+        "description" : "Methods for splitting video in the spatial dimension.",
+        "links" : [],
+        "implementations" : []
+    },
+    "_Feature Extraction" : {
+        "description" : "Methods for extracting information about the content of media.",
+        "links" : [
+            "[Scikit learn article](https://scikit-learn.org/stable/modules/feature_extraction.html)"
+        ],
+        "implementations" : []
+    },
+    "_Feature Extraction_Audio Feature Extraction" : {
+        "description" : "Methods for extracting information about audio.",
+        "links" : [],
+        "implementations" : []
+    },
+    "_Feature Extraction_Image Feature Extraction" : {
+        "description" : "Methods for extracting information about images.",
+        "links" : [],
+        "implementations" : []
+    },
+    "_Storage" : {
+        "description" : "Ways that digital content can be stored.",
+        "links" : [],
+        "implementations" : []
+    }
 }

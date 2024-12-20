@@ -1,4 +1,4 @@
-export const parse_raw_data = (raw_data, network_style) => {
+export const parse_raw_data = (raw_data, network_style, category_data) => {
     let ret = {"nodes" : [], "links" : [], "hierarchy" : {"name" : "Root", "children" : []}, "nodes_raw" : [], "links_raw" : []};
     
     let raw_node_list = [];
@@ -87,6 +87,15 @@ export const parse_raw_data = (raw_data, network_style) => {
         node.parent = hierarchies[String(node.categories)]["node_id"];
         node_to_sub_links.push({"id" : node.id + node.parent, "source" : node.parent, "target" : node.id, "hidden" : true});
       };
+    });
+
+    cat_node_list.forEach(node => {
+      const node_supplementary_data = category_data[node.id];
+      if(node_supplementary_data){
+        node.description = node_supplementary_data["description"];
+        node.links = node_supplementary_data["links"];
+        node.implementations = node_supplementary_data["implementations"];
+      }
     });
 
     // Add to main lists:
